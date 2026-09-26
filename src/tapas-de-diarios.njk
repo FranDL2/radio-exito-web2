@@ -1,0 +1,40 @@
+---
+layout: layouts/base.njk
+title: "Tapas de diarios"
+description: "Accesos directos a las tapas del día de los principales diarios nacionales y regionales."
+---
+{% set diarios = [
+  { nombre: "Clarín", ambito: "Nacional", url: "https://www.clarin.com/" },
+  { nombre: "La Nación", ambito: "Nacional", url: "https://www.lanacion.com.ar/" },
+  { nombre: "Infobae", ambito: "Nacional", url: "https://www.infobae.com/" },
+  { nombre: "Página/12", ambito: "Nacional", url: "https://www.pagina12.com.ar/" },
+  { nombre: "Diario Época", ambito: "Corrientes", url: "https://www.diarioepoca.com/" },
+  { nombre: "Momarandu", ambito: "Corrientes", url: "https://www.momarandu.com/" },
+  { nombre: "El Litoral", ambito: "Corrientes", url: "https://www.ellitoral.com.ar/" },
+  { nombre: "Kiosko.net", ambito: "Todas las tapas de Argentina", url: "https://kiosko.net/ar/" }
+] %}
+
+<section class="section" style="padding-top:48px; border-bottom:none;">
+  <div class="container">
+    <div class="section-head">
+      <span class="kicker">Enlaces</span>
+      <h1 class="mt-0">Tapas de diarios</h1>
+      <p class="lead">Accesos directos a la tapa del día de los principales diarios nacionales y regionales. No reproducimos las portadas en este sitio por respeto a los derechos de autor de cada medio: cada tarjeta te lleva directamente a la fuente oficial.</p>
+    </div>
+
+    <div class="tapas-grid">
+      {% for d in diarios %}
+      <a class="tapa-card" href="{{ d.url }}" target="_blank" rel="noopener noreferrer" data-no-router>
+        <span class="tapa-icon" aria-hidden="true">
+          <svg width="26" height="26" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.6"><path d="M4 4h13a2 2 0 012 2v13a1 1 0 01-1 1H6a2 2 0 01-2-2V4z"/><path d="M4 4v14a2 2 0 002 2" /><path d="M8 8h7M8 11h7M8 14h4"/></svg>
+        </span>
+        <span class="tapa-name">{{ d.nombre }}</span>
+        <span class="tapa-ambito">{{ d.ambito }}</span>
+        <span class="tapa-cta">Ver tapa de hoy →</span>
+      </a>
+      {% endfor %}
+    </div>
+
+    <p class="hint" style="margin-top:24px;">¿Le falta un diario a esta lista? Se puede agregar como una entrada más desde <code>src/tapas-de-diarios.njk</code>, o pedirlo para la próxima actualización.</p>
+  </div>
+</section>
