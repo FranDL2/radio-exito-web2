@@ -1,0 +1,40 @@
+<header class="site-header">
+  <div class="container header-top">
+    <a href="/" class="brand" aria-label="{{ site.nombre }} {{ site.frecuencia }}, inicio">
+      <span class="brand-name">{{ site.nombre }}</span><span class="brand-freq">{{ site.frecuencia }}</span>
+    </a>
+    <div class="header-actions">
+      <a class="btn btn-primary btn-sm" href="/radio-en-vivo.html" data-play-stream>
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+        Radio en vivo
+      </a>
+      <button id="nav-toggle" class="nav-toggle" type="button" aria-expanded="false" aria-controls="mobile-nav" aria-label="Abrir menú de secciones">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true"><path d="M3 6h18M3 12h18M3 18h18"/></svg>
+      </button>
+    </div>
+  </div>
+
+  <nav class="subnav" aria-label="Secciones">
+    <ul class="subnav-list container">
+      <li><a href="/tapas-de-diarios.html"{% if page.url == "/tapas-de-diarios.html" %} aria-current="page"{% endif %}>Tapas de diarios</a></li>
+      {% for c in categorias %}
+      <li><a href="/seccion/{{ c.slug }}/"{% if page.url == "/seccion/" + c.slug + "/" %} aria-current="page"{% endif %}>{{ c.nombre }}</a></li>
+      {% endfor %}
+      <li><a href="/nosotros.html"{% if page.url == "/nosotros.html" %} aria-current="page"{% endif %}>Nosotros</a></li>
+      <li><a href="/contacto.html"{% if page.url == "/contacto.html" %} aria-current="page"{% endif %}>Contacto</a></li>
+    </ul>
+  </nav>
+</header>
+
+<nav id="mobile-nav" class="mobile-nav" aria-label="Secciones (menú móvil)">
+  <ul>
+    <li><a href="/">Inicio</a></li>
+    <li><a href="/radio-en-vivo.html">Radio en vivo</a></li>
+    <li><a href="/tapas-de-diarios.html">Tapas de diarios</a></li>
+    {% for c in categorias %}
+    <li><a href="/seccion/{{ c.slug }}/">{{ c.nombre }}</a></li>
+    {% endfor %}
+    <li><a href="/nosotros.html">Nosotros</a></li>
+    <li><a href="/contacto.html">Contacto</a></li>
+  </ul>
+</nav>

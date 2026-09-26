@@ -1,0 +1,59 @@
+---
+layout: layouts/base.njk
+title: ""
+description: "Noticias de La Cruz, Corrientes y la región, y radio en vivo las 24 horas: Radio Éxito 105.1."
+jsonLd: >
+  {
+    "@context": "https://schema.org",
+    "@type": "RadioStation",
+    "name": "Radio Éxito 105.1",
+    "url": "https://www.radioexito.com.ar/",
+    "broadcastFrequency": "105.1 MHz",
+    "address": { "@type": "PostalAddress", "addressLocality": "La Cruz", "addressRegion": "Corrientes", "addressCountry": "AR" }
+  }
+---
+{% import "partials/macros.njk" as m %}
+{% set todas = collections.noticias %}
+{% set ultimas = todas | limitar(9) %}
+
+<section class="live-strip">
+  <div class="container">
+    <div class="info">
+      <span class="live-dot" aria-hidden="true"></span>
+      <div>
+        <h1>{{ site.nombre }} {{ site.frecuencia }} — La Cruz, Corrientes</h1>
+        <p>Escuchá la transmisión en vivo mientras recorrés las noticias del día.</p>
+      </div>
+    </div>
+    <a class="btn btn-primary" href="/radio-en-vivo.html" data-play-stream>
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+      Escuchar en vivo
+    </a>
+  </div>
+</section>
+
+<div class="container portal-layout">
+  <div>
+    {% if ultimas.length %}
+      <h2 class="section-title">Últimas noticias</h2>
+      <div class="news-grid featured-grid">
+        {{ m.articleCard(ultimas[0], "lg") }}
+        <div class="news-grid" style="grid-template-columns:1fr;">
+          {% for post in ultimas | limitar(3) %}
+            {% if not loop.first %}{{ m.articleCard(post, "row") }}{% endif %}
+          {% endfor %}
+        </div>
+      </div>
+
+      <div class="news-grid">
+        {% for post in ultimas %}
+          {% if loop.index0 >= 3 %}{{ m.articleCard(post) }}{% endif %}
+        {% endfor %}
+      </div>
+    {% else %}
+      <p class="empty-state">Todavía no hay noticias publicadas. Entrá a <a href="/admin/">/admin</a> para cargar la primera.</p>
+    {% endif %}
+  </div>
+
+  {% include "partials/sidebar.njk" %}
+</div>

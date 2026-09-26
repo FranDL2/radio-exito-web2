@@ -1,0 +1,38 @@
+---
+layout: layouts/base.njk
+title: "Nosotros"
+description: "Conocé a Radio Éxito 105.1: radio y portal de noticias de La Cruz, Corrientes."
+---
+<section class="section" style="padding-top:48px;">
+  <div class="container">
+    <div class="section-head">
+      <span class="kicker">Institucional</span>
+      <h1 class="mt-0">Quiénes somos</h1>
+      <p class="lead">{{ site.nombre }} {{ site.frecuencia }} acompaña a La Cruz, Corrientes y la región con radio y noticias, todos los días del año.</p>
+    </div>
+    <div class="grid-2">
+      <div class="info-card">
+        <h3>Nuestra misión</h3>
+        <p>Ser la voz cotidiana de La Cruz y la región: informar con responsabilidad, entretener con calidad y acompañar a nuestra audiencia en cada momento del día.</p>
+      </div>
+      <div class="info-card">
+        <h3>Nuestro compromiso</h3>
+        <p>Trabajamos con transparencia hacia la comunidad y los anunciantes, cuidando la veracidad de la información que difundimos.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="section" style="border-bottom:none;">
+  <div class="container">
+    <div class="section-head">
+      <span class="kicker">Datos institucionales</span>
+      <h2 class="mt-0">Información de la emisora</h2>
+    </div>
+    <div class="grid-3">
+      <div class="info-card"><h3>Frecuencia</h3><p>FM {{ site.frecuencia }} MHz</p></div>
+      <div class="info-card"><h3>Localidad</h3><p>{{ contacto.direccion }}</p></div>
+      <div class="info-card"><h3>Alcance</h3><p>Transmisión FM local y streaming en vivo para todo el mundo a través de este sitio.</p></div>
+    </div>
+  </div>
+</section>
