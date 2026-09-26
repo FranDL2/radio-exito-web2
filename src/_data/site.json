@@ -3,6 +3,6 @@
   "frecuencia": "105.1",
   "eslogan": "El valor de la palabra — la radio y el portal de noticias de La Cruz, Corrientes",
   "url": "https://radioexito105.netlify.app",
-  "streamUrl": "http://centova.radiosnethosting.com:9748/stream",
-  "streamUrlSSL": ""
+  "streamUrl": "https://ssl2026.radiosnethosting.com/?port=9748",
+  "streamUrlSSL": "https://ssl2026.radiosnethosting.com/?port=9748"
 }
