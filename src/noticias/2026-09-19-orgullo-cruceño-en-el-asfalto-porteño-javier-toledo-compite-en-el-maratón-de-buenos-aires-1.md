@@ -12,7 +12,7 @@ resumen: >+
 
 destacada: true
 ---
-
+![](/assets/img/noticias/image_2026-09-26_153238936.png)
 
 Nacido el 11 de junio de 1993, Javier Toledo (33 años) forma parte de esta nueva edición del Maratón Internacional de Buenos Aires, que reúne a más de 16.000 corredores de todo el mundo. Lejos de ser un deportista profesional, Javier es un corredor completamente amateur de nuestra localidad que, a base de esfuerzo, sacrificio y una enorme pasión, viene participando en tantísimos eventos de estas características a lo largo y ancho del país cada vez que las condiciones se lo permiten.
 
