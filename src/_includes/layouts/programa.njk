@@ -1,0 +1,27 @@
+---
+layout: layouts/base.njk
+eleventyComputed:
+  title: "{{ nombre }}"
+  description: "{{ descripcion }}"
+---
+<div class="container" style="padding:48px 0;">
+  <span class="card-tag">Programación</span>
+  <h1 style="margin-top:14px;">{{ nombre }}</h1>
+  <p class="article-meta">{{ horaInicio }} a {{ horaFin }} · {{ dias | join(", ") }}</p>
+
+  {% if foto %}
+  <img class="article-cover" src="{{ foto }}" alt="{{ nombre }}">
+  {% endif %}
+
+  <div style="max-width:72ch; margin-top:20px;">
+    <p style="color:var(--text); font-size:1.02rem;">{{ descripcion }}</p>
+    {% if conductor %}<p><strong>Conducción:</strong> {{ conductor }}</p>{% endif %}
+  </div>
+
+  <a class="btn btn-primary" href="/radio-en-vivo.html" data-play-stream style="margin-top:12px;">
+    <svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+    Escuchar {{ site.nombre }} {{ site.frecuencia }}
+  </a>
+
+  <p style="margin-top:28px;"><a class="btn btn-outline btn-sm" href="/programacion.html">← Ver grilla completa</a></p>
+</div>
