@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<script>
+  // Evita el "flash" de tema incorrecto: corre antes de pintar la página.
+  (function () {
+    try {
+      var mode = localStorage.getItem("radioexito-theme") || "system";
+      var sysLight = window.matchMedia && window.matchMedia("(prefers-color-scheme: light)").matches;
+      var effective = mode === "system" ? (sysLight ? "light" : "dark") : mode;
+      document.documentElement.setAttribute("data-theme", effective);
+      document.documentElement.setAttribute("data-theme-mode", mode);
+    } catch (e) { /* queda el tema oscuro por defecto del CSS */ }
+    // Invitaciones / recuperación de contraseña de Netlify Identity: llevan al panel.
+    if (/(invite|recovery|confirmation)_token=/.test(window.location.hash)) {
+      window.location.replace("/admin/" + window.location.hash);
+    }
+  })();
+</script>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+{% set tituloCompleto = (title + " — " + site.nombre + " " + site.frecuencia) if title else (site.nombre + " " + site.frecuencia + " — La Cruz, Corrientes") %}
+{% set descripcionFinal = description or resumen or site.eslogan %}
+{% set imagenSocial = (site.url + imagen) if (imagen and imagen.indexOf("/") == 0) else (site.url + "/assets/img/logo.png") %}
+<title>{{ tituloCompleto }}</title>
+<meta name="description" content="{{ descripcionFinal | truncar(200) }}">
+{% if noindex %}<meta name="robots" content="noindex, follow">{% endif %}
+<link rel="canonical" href="{{ site.url }}{{ page.url }}">
+<meta property="og:site_name" content="{{ site.nombre }} {{ site.frecuencia }}">
+<meta property="og:title" content="{{ title or (site.nombre + ' ' + site.frecuencia) }}">
+<meta property="og:description" content="{{ descripcionFinal | truncar(200) }}">
+<meta property="og:type" content="{{ 'article' if categoria else 'website' }}">
+<meta property="og:url" content="{{ site.url }}{{ page.url }}">
+<meta property="og:image" content="{{ imagenSocial }}">
+<meta property="og:locale" content="es_AR">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="{{ title or (site.nombre + ' ' + site.frecuencia) }}">
+<meta name="twitter:description" content="{{ descripcionFinal | truncar(200) }}">
+<meta name="twitter:image" content="{{ imagenSocial }}">
+<meta name="theme-color" content="#0b0b0c">
+<link rel="icon" href="/assets/img/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/assets/img/icon-180.png">
+<link rel="manifest" href="/manifest.webmanifest">
+<link rel="alternate" type="application/rss+xml" title="{{ site.nombre }} {{ site.frecuencia }} — Noticias" href="/rss.xml">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Archivo:wght@700;800;900&family=Work+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="/assets/css/style.css">
+{% if page.url == "/" %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "RadioStation",
+  "name": {{ (site.nombre + " " + site.frecuencia) | dump | safe }},
+  "url": {{ site.url | dump | safe }},
+  "logo": {{ (site.url + "/assets/img/logo.png") | dump | safe }},
+  "slogan": "El valor de la palabra",
+  "broadcastFrequency": {{ (site.frecuencia + " MHz") | dump | safe }},
+  "areaServed": "La Cruz, Corrientes, Argentina",
+  "address": { "@type": "PostalAddress", "addressLocality": "La Cruz", "addressRegion": "Corrientes", "addressCountry": "AR" },
+  "sameAs": {{ [contacto.facebook, contacto.instagram, contacto.youtube, contacto.twitter, contacto.tiktok] | compactar | dump | safe }}
+}
+</script>
+{% endif %}
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "Organization",
+  "name": {{ (site.nombre + " " + site.frecuencia) | dump | safe }},
+  "url": {{ site.url | dump | safe }},
+  "logo": {{ (site.url + "/assets/img/logo.png") | dump | safe }}
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebSite",
+  "name": {{ (site.nombre + " " + site.frecuencia) | dump | safe }},
+  "url": {{ site.url | dump | safe }},
+  "potentialAction": {
+    "@type": "SearchAction",
+    "target": {{ (site.url + "/buscar.html?q={search_term_string}") | dump | safe }},
+    "query-input": "required name=search_term_string"
+  }
+}
+</script>
+</head>
+<body>
+<a class="skip-link" href="#main-content">Saltar al contenido principal</a>
+
+{% include "partials/header.njk" %}
+
+<main id="main-content">
+{{ content | safe }}
+</main>
+
+{% include "partials/footer.njk" %}
+{% include "components/radio-player.njk" %}
+{% include "partials/whatsapp-float.njk" %}
+{% include "partials/cookie-banner.njk" %}
+
+<script>
+  window.SITE_CONFIG = {
+    streamUrl: {{ site.streamUrl | dump | safe }},
+    streamUrlSSL: {{ (site.streamUrlSSL or "") | dump | safe }},
+    nowPlayingUrl: {{ (site.nowPlayingUrl or "") | dump | safe }},
+    nombre: {{ site.nombre | dump | safe }},
+    frecuencia: {{ site.frecuencia | dump | safe }},
+    gaId: {{ (site.gaId or "") | dump | safe }}
+  };
+  window.RE_SCHEDULE = {{ collections.programas | programasJson | dump | safe }};
+</script>
+<script src="/assets/js/core.js" defer></script>
+<script src="/assets/js/theme.js" defer></script>
+<script src="/assets/js/analytics.js" defer></script>
+<script src="/assets/js/radio-player.js" defer></script>
+<script src="/assets/js/navigation.js" defer></script>
+<script src="/assets/js/widgets.js" defer></script>
+<script src="/assets/js/content.js" defer></script>
+<script src="/assets/js/search.js" defer></script>
+<script src="/assets/js/forms.js" defer></script>
+<script src="/assets/js/main.js" defer></script>
+</body>
+</html>

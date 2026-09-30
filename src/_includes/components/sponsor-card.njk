@@ -1,0 +1,18 @@
+{# Sponsors por posición. Uso: {% import "components/sponsor-card.njk" as sp with context %}{{ sp.sponsorSlot("sidebar") }} #}
+{% macro sponsorSlot(posicion) %}
+{% set lista = sponsors.items | sponsorsPara(posicion) %}
+{% if lista.length %}
+<div class="sponsor-slot sponsor-slot-{{ posicion }}">
+  <span class="sponsor-label">PUBLICIDAD</span>
+  <div class="sponsor-items">
+  {% for s in lista %}
+    {% if s.imagen %}
+    <a class="sponsor-card" href="{{ s.url or '#' }}" target="_blank" rel="noopener noreferrer sponsored" data-no-router data-sponsor="{{ s.nombre }}"{% if s.inicio %} data-inicio="{{ s.inicio }}"{% endif %}{% if s.fin %} data-fin="{{ s.fin }}"{% endif %}>
+      <img src="{{ s.imagen }}" alt="Publicidad: {{ s.nombre }}" loading="lazy" decoding="async">
+    </a>
+    {% endif %}
+  {% endfor %}
+  </div>
+</div>
+{% endif %}
+{% endmacro %}

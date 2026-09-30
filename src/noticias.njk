@@ -1,0 +1,23 @@
+---
+layout: layouts/base.njk
+permalink: "/noticias/"
+title: "Noticias"
+description: "Todas las noticias de Radio Éxito 105.1: La Cruz, Corrientes y la región."
+---
+{% import "components/news-card.njk" as nc with context %}
+<section class="section" style="padding-top:48px; border-bottom:none;">
+  <div class="container">
+    <div class="section-head">
+      <span class="kicker">Portal</span>
+      <h1 class="mt-0">Todas las noticias</h1>
+      <p class="lead">Las últimas noticias de La Cruz, Corrientes y la región, más recientes primero.</p>
+    </div>
+    {% if collections.noticias.length %}
+    <div class="news-grid">
+      {% for post in collections.noticias %}{{ nc.articleCard(post) }}{% endfor %}
+    </div>
+    {% else %}
+    <p class="empty-state">Todavía no hay noticias publicadas. Se pueden cargar desde <a href="/admin/">/admin</a>.</p>
+    {% endif %}
+  </div>
+</section>

@@ -1,0 +1,86 @@
+---
+layout: layouts/base.njk
+---
+{% import "components/news-card.njk" as m with context %}
+<article data-article data-title="{{ title }}" data-category="{{ categoria | nombreCategoria(categorias) }}">
+  <div class="container article-header">
+    <span class="card-tag-row">
+      {% if ultimaHora %}<span class="tag-live">🔴 ÚLTIMA HORA</span>{% endif %}
+      <span class="card-tag">{{ categoria | nombreCategoria(categorias) }}</span>
+    </span>
+    <h1>{{ title }}</h1>
+    {% if resumen %}<p class="article-lead">{{ resumen }}</p>{% endif %}
+    <p class="article-meta">
+      <span>📍 {{ contacto.direccion }}</span>
+      <span class="meta-sep" aria-hidden="true">·</span>
+      <time class="smart-date" datetime="{{ date | isoDate }}" data-keep-full>{{ date | fechaLarga }} · {{ date | horaCorta }}</time>
+    </p>
+    {% if imagen %}
+    <img class="article-cover" src="{{ imagen }}" alt="{{ imagenAlt or title }}" loading="eager" decoding="async" width="1200" height="675">
+    {% endif %}
+  </div>
+  <div class="container article-body">
+    {{ content | safe }}
+
+    {% if etiquetas and etiquetas.length %}
+    <div class="tag-list">
+      {% for t in etiquetas %}<span class="tag-chip">#{{ t }}</span>{% endfor %}
+    </div>
+    {% endif %}
+
+    <div class="share-row">
+      <span class="share-label">Compartir:</span>
+      <a class="share-btn" data-share="whatsapp" href="#" aria-label="Compartir por WhatsApp">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12 2a10 10 0 00-8.6 15L2 22l5.2-1.4A10 10 0 1012 2zm5.7 14.2c-.3.7-1.4 1.3-2 1.4-.5.1-1.2.2-3.8-.8-3.2-1.3-5.3-4.5-5.5-4.7-.2-.2-1.3-1.7-1.3-3.3s.8-2.3 1.1-2.6c.3-.3.6-.4.8-.4h.6c.2 0 .5 0 .7.5.3.7 1 2.3 1 2.5.1.2.1.4 0 .6-.1.2-.2.3-.4.5l-.5.6c-.2.2-.3.4-.1.7.2.3.9 1.5 2 2.4 1.4 1.2 2.5 1.6 2.9 1.8.3.1.5.1.7-.1.2-.2.8-.9 1-1.2.2-.3.4-.2.7-.1.3.1 1.9.9 2.2 1.1.3.1.5.2.6.3.1.2.1.9-.2 1.6z"/></svg>
+        <span class="share-text">WhatsApp</span>
+      </a>
+      <a class="share-btn" data-share="facebook" href="#" aria-label="Compartir en Facebook">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M22 12a10 10 0 10-11.6 9.9v-7H7.9V12h2.5V9.8c0-2.5 1.5-3.9 3.8-3.9 1.1 0 2.2.2 2.2.2v2.5h-1.3c-1.2 0-1.6.8-1.6 1.6V12h2.8l-.4 2.9h-2.4v7A10 10 0 0022 12z"/></svg>
+        <span class="share-text">Facebook</span>
+      </a>
+      <a class="share-btn" data-share="x" href="#" aria-label="Compartir en X">
+        <svg width="15" height="15" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M18.9 2H22l-7.6 8.7L23.3 22H16.7l-5.2-6.8L5.5 22H2.4l8.1-9.3L1.1 2h6.8l4.7 6.2L18.9 2zm-1.2 18h1.7L7.4 4h-1.8l12.1 16z"/></svg>
+        <span class="share-text">X</span>
+      </a>
+      <button class="share-btn" type="button" data-share="copy" aria-label="Copiar enlace">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="9" y="9" width="11" height="11" rx="2"/><path d="M5 15V5a2 2 0 012-2h10"/></svg>
+        <span class="share-text">Copiar enlace</span>
+      </button>
+      <button class="share-btn share-native" type="button" data-share="native" aria-label="Compartir">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="M8.6 13.5l6.8 4M15.4 6.5l-6.8 4"/></svg>
+        <span class="share-text">Compartir</span>
+      </button>
+    </div>
+  </div>
+
+  {% set relacionadas = collections.noticias | porCategoria(categoria) | limitar(4) %}
+  {% if relacionadas.length %}
+  <div class="container section" style="border-bottom:none; padding-top:0;">
+    <h2 class="section-title">También te puede interesar</h2>
+    <div class="news-grid">
+      {% for post in relacionadas %}
+        {% if post.url != page.url %}{{ m.articleCard(post) }}{% endif %}
+      {% endfor %}
+    </div>
+  </div>
+  {% endif %}
+</article>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "NewsArticle",
+  "headline": {{ title | dump | safe }},
+  "datePublished": {{ date | isoDate | dump | safe }},
+  "dateModified": {{ (dateModified or date) | isoDate | dump | safe }},
+  "description": {{ (resumen or "") | dump | safe }},
+  {% if imagen %}"image": [{{ (site.url + imagen) | dump | safe }}],{% endif %}
+  "articleSection": {{ (categoria | nombreCategoria(categorias)) | dump | safe }},
+  "author": { "@type": "Organization", "name": {{ (site.nombre + " " + site.frecuencia) | dump | safe }} },
+  "publisher": {
+    "@type": "Organization",
+    "name": {{ (site.nombre + " " + site.frecuencia) | dump | safe }},
+    "logo": { "@type": "ImageObject", "url": {{ (site.url + "/assets/img/logo.png") | dump | safe }} }
+  },
+  "mainEntityOfPage": {{ (site.url + page.url) | dump | safe }}
+}
+</script>

@@ -1,0 +1,27 @@
+{% import "components/sponsor-card.njk" as sp with context %}
+<aside class="sidebar" aria-label="Información complementaria">
+
+  {% include "components/weather.njk" %}
+  {% include "components/dollar.njk" %}
+
+  {% set destacadasList = collections.noticias | destacadas | limitar(5) %}
+  {% if destacadasList.length %}
+  <div class="widget">
+    <h2>Noticias destacadas</h2>
+    <ol class="most-read-list">
+      {% for post in destacadasList %}
+      <li><span class="num">{{ loop.index }}</span><a href="{{ post.url }}">{{ post.data.title }}</a></li>
+      {% endfor %}
+    </ol>
+  </div>
+  {% endif %}
+
+  {{ sp.sponsorSlot("sidebar") }}
+
+  <div class="widget">
+    <h2>Tapas de diarios</h2>
+    <p class="widget-text">Accesos directos a los principales diarios nacionales y de Corrientes.</p>
+    <a class="btn btn-outline btn-sm" href="/tapas-de-diarios.html">Ver tapas de diarios</a>
+  </div>
+
+</aside>

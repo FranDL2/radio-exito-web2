@@ -1,0 +1,27 @@
+---
+permalink: "/rss.xml"
+eleventyExcludeFromCollections: true
+---
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+<channel>
+<title>{{ site.nombre | xmlEscape }} {{ site.frecuencia }} — Noticias</title>
+<link>{{ site.url }}/</link>
+<atom:link href="{{ site.url }}/rss.xml" rel="self" type="application/rss+xml"/>
+<description>{{ site.eslogan | xmlEscape }}</description>
+<language>es-ar</language>
+{%- for post in collections.noticias | limitar(30) %}
+<item>
+<title>{{ post.data.title | xmlEscape }}</title>
+<link>{{ site.url }}{{ post.url }}</link>
+<guid>{{ site.url }}{{ post.url }}</guid>
+<pubDate>{{ post.date | rfc822 }}</pubDate>
+<category>{{ post.data.categoria | nombreCategoria(categorias) | xmlEscape }}</category>
+<description>{{ (post.data.resumen or (post.templateContent | stripHtml | truncar(220))) | xmlEscape }}</description>
+{%- if post.data.imagen %}
+<enclosure url="{{ site.url }}{{ post.data.imagen }}" type="image/jpeg"/>
+{%- endif %}
+</item>
+{%- endfor %}
+</channel>
+</rss>

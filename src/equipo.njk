@@ -1,0 +1,35 @@
+---
+layout: layouts/base.njk
+permalink: "/equipo.html"
+title: "Equipo"
+description: "Conocé a los conductores y periodistas de Radio Éxito 105.1."
+---
+<section class="section" style="padding-top:48px; border-bottom:none;">
+  <div class="container">
+    <div class="section-head">
+      <span class="kicker">Radio Éxito 105.1</span>
+      <h1 class="mt-0">Nuestro equipo</h1>
+      <p class="lead">Las voces y la producción detrás de {{ site.nombre }} {{ site.frecuencia }}.</p>
+    </div>
+    {% if collections.equipo.length %}
+    <div class="grid-3 team-grid">
+      {% for m in collections.equipo %}
+      <div class="info-card team-card">
+        {% if m.data.foto %}<img class="team-photo" src="{{ m.data.foto }}" alt="{{ m.data.nombre }}" loading="lazy" decoding="async">{% endif %}
+        <h3>{{ m.data.nombre }}</h3>
+        <p class="team-role">{{ m.data.funcion }}{% if m.data.programa %} · {{ m.data.programa }}{% endif %}</p>
+        {% if m.data.bio %}<p>{{ m.data.bio }}</p>{% endif %}
+        {% if m.data.instagram or m.data.twitter %}
+        <div class="social-row">
+          {% if m.data.instagram %}<a href="{{ m.data.instagram }}" target="_blank" rel="noopener noreferrer" data-no-router aria-label="Instagram de {{ m.data.nombre }}"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1"/></svg></a>{% endif %}
+          {% if m.data.twitter %}<a href="{{ m.data.twitter }}" target="_blank" rel="noopener noreferrer" data-no-router aria-label="X de {{ m.data.nombre }}"><svg width="14" height="14" viewBox="0 0 24 24" fill="currentColor"><path d="M18.9 2H22l-7.6 8.7L23.3 22H16.7l-5.2-6.8L5.5 22H2.4l8.1-9.3L1.1 2h6.8l4.7 6.2L18.9 2zm-1.2 18h1.7L7.4 4h-1.8l12.1 16z"/></svg></a>{% endif %}
+        </div>
+        {% endif %}
+      </div>
+      {% endfor %}
+    </div>
+    {% else %}
+    <p class="empty-state">Todavía no hay integrantes cargados. Se pueden agregar desde <a href="/admin/">/admin</a> → Equipo.</p>
+    {% endif %}
+  </div>
+</section>

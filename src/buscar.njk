@@ -1,0 +1,25 @@
+---
+layout: layouts/base.njk
+permalink: "/buscar.html"
+title: "Buscar noticias"
+description: "Buscá noticias de Radio Éxito 105.1 por título, contenido, categoría o etiqueta."
+noindex: true
+---
+<section class="section" style="padding-top:48px; border-bottom:none;">
+  <div class="container">
+    <div class="section-head">
+      <span class="kicker">Buscador</span>
+      <h1 class="mt-0">Buscar noticias</h1>
+      <p class="lead">Buscá por título, contenido, categoría o etiqueta.</p>
+    </div>
+
+    <form id="search-form" role="search" class="search-form">
+      <label for="search-input" class="visually-hidden">Buscar noticias</label>
+      <input type="search" id="search-input" name="q" placeholder="Ej: economía, Paso de los Libres, sábado…" autocomplete="off">
+      <button class="btn btn-primary" type="submit">Buscar</button>
+    </form>
+
+    <p id="search-status" class="search-status" role="status" aria-live="polite"></p>
+    <ul id="search-results" class="search-results"></ul>
+  </div>
+</section>

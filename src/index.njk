@@ -1,0 +1,67 @@
+---
+layout: layouts/base.njk
+title: ""
+description: "Noticias de La Cruz, Corrientes y la región, y radio en vivo las 24 horas: Radio Éxito 105.1, El valor de la palabra."
+---
+{% import "components/news-card.njk" as m with context %}
+{% import "components/sponsor-card.njk" as sp with context %}
+{% set portadaNoticias = collections.noticias | portada %}
+
+<section class="hero">
+  <div class="container hero-inner">
+    <div class="hero-copy">
+      <span class="hero-eyebrow"><span class="live-dot" aria-hidden="true"></span> EN VIVO · La Cruz, Corrientes</span>
+      <h1 class="hero-title">{{ site.nombre | upper }}<span>{{ site.frecuencia }}</span></h1>
+      <p class="hero-tagline">La radio de La Cruz. El valor de la palabra, las 24 horas, para toda la región.</p>
+      <div class="hero-actions">
+        <button class="btn btn-primary btn-lg" type="button" data-play-stream>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M8 5v14l11-7z"/></svg>
+          Escuchar ahora
+        </button>
+        <a class="btn btn-outline" href="/programacion.html">Ver programación</a>
+      </div>
+    </div>
+    <div class="hero-onair" data-live-current></div>
+  </div>
+  <div class="container hero-next-wrap" data-live-next-wrap hidden>
+    <span class="hero-next-label">Próximamente</span>
+    <span data-live-next></span>
+  </div>
+</section>
+
+{{ sp.sponsorSlot("home") }}
+
+<div class="container portal-layout">
+  <div>
+    {% if portadaNoticias.lead %}
+      <h2 class="section-title">{{ "Última hora" if portadaNoticias.lead.data.ultimaHora else "Noticia principal" }}</h2>
+      <div class="news-grid featured-grid">
+        {{ m.articleCard(portadaNoticias.lead, "lg") }}
+        <div class="news-grid" style="grid-template-columns:1fr;">
+          {% for post in portadaNoticias.resto | limitar(3) %}{{ m.articleCard(post, "row") }}{% endfor %}
+        </div>
+      </div>
+
+      {% if portadaNoticias.resto.length > 3 %}
+      <h2 class="section-title">Más noticias</h2>
+      <div class="news-grid">
+        {% for post in portadaNoticias.resto %}
+          {% if loop.index0 >= 3 %}{{ m.articleCard(post) }}{% endif %}
+        {% endfor %}
+      </div>
+      {% endif %}
+    {% else %}
+      <p class="empty-state">Todavía no hay noticias publicadas. Entrá a <a href="/admin/">/admin</a> para cargar la primera.</p>
+    {% endif %}
+
+    <div class="local-strip">
+      <div>
+        <h2 class="mt-0">La radio de La Cruz, Corrientes</h2>
+        <p>{{ site.eslogan }}. Acompañamos a la comunidad con música, información y servicio, todos los días del año.</p>
+        <a class="btn btn-outline btn-sm" href="/nosotros.html">Conocer la radio</a>
+      </div>
+    </div>
+  </div>
+
+  {% include "partials/sidebar.njk" %}
+</div>

@@ -1,0 +1,59 @@
+{% import "components/sponsor-card.njk" as sp with context %}
+{{ sp.sponsorSlot("footer") }}
+<footer class="site-footer">
+  <div class="container">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <a class="brand" href="/" aria-label="{{ site.nombre }} {{ site.frecuencia }}, inicio">
+          <span class="brand-logo-chip brand-logo-chip-lg"><img src="/assets/img/logo.png" width="411" height="137" alt="{{ site.nombre }} {{ site.frecuencia }}" loading="lazy" decoding="async"></span>
+        </a>
+        <p class="footer-place"><strong>{{ site.nombre | upper }} {{ site.frecuencia }}</strong><br>La Cruz, Corrientes · Argentina</p>
+        <p class="footer-tagline">El valor de la palabra.</p>
+      </div>
+
+      <div>
+        <h4>Navegación</h4>
+        <ul>
+          <li><a href="/">Inicio</a></li>
+          <li><a href="/radio-en-vivo.html">Radio</a></li>
+          <li><a href="/programacion.html">Programación</a></li>
+          <li><a href="/noticias/">Noticias</a></li>
+          <li><a href="/nosotros.html">Nosotros</a></li>
+          <li><a href="/equipo.html">Equipo</a></li>
+          <li><a href="/publicidad.html">Publicidad</a></li>
+          <li><a href="/contacto.html">Contacto</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4>Secciones</h4>
+        <ul>
+          {% for c in categorias | limitar(6) %}
+          <li><a href="/seccion/{{ c.slug }}/">{{ c.nombre }}</a></li>
+          {% endfor %}
+          <li><a href="/tapas-de-diarios.html">Tapas de diarios</a></li>
+          <li><a href="/rss.xml" data-no-router>RSS</a></li>
+        </ul>
+      </div>
+
+      <div>
+        <h4>Seguinos</h4>
+        {% include "components/social-links.njk" %}
+        <ul class="footer-contact">
+          {% if contacto.whatsapp %}<li><a href="{{ contacto.whatsapp }}" target="_blank" rel="noopener noreferrer" data-no-router>WhatsApp{% if contacto.whatsappTexto %}: {{ contacto.whatsappTexto }}{% endif %}</a></li>{% endif %}
+          {% if contacto.email %}<li><a href="mailto:{{ contacto.email }}">{{ contacto.email }}</a></li>{% endif %}
+        </ul>
+      </div>
+    </div>
+
+    <div class="footer-legal">
+      <span>© <span id="year">2026</span> {{ site.nombre }} {{ site.frecuencia }}. Todos los derechos reservados.</span>
+      <nav aria-label="Enlaces legales">
+        <a href="/legal/privacidad.html">Privacidad</a> ·
+        <a href="/legal/terminos.html">Términos y condiciones</a> ·
+        <a href="/legal/cookies.html">Cookies</a> ·
+        <a href="/legal/reembolsos.html">Reembolsos</a>
+      </nav>
+    </div>
+  </div>
+</footer>
