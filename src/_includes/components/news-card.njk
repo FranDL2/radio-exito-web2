@@ -1,0 +1,24 @@
+{# Tarjeta de noticia reutilizable. Importar con: {% import "components/news-card.njk" as nc with context %} #}
+{% macro articleCard(post, size) %}
+<a class="card{% if size %} card-{{ size }}{% endif %}" href="{{ post.url }}">
+  <div class="card-media">
+    {% if post.data.imagen %}
+      {% set anchos = [400, 800] if size != "lg" else [600, 1000, 1400] %}
+      <img src="{{ post.data.imagen }}"
+           {% set ss = post.data.imagen | srcset(anchos, site.imageCdn) %}{% if ss %}srcset="{{ ss }}" sizes="{{ '(min-width: 980px) 640px, 100vw' if size == 'lg' else '(min-width: 980px) 320px, (min-width: 600px) 50vw, 100vw' }}"{% endif %}
+           alt="{{ post.data.imagenAlt or post.data.title }}" width="{{ 1000 if size == 'lg' else 640 }}" height="{{ 563 if size == 'lg' else 400 }}" loading="lazy" decoding="async">
+    {% else %}
+      <span class="placeholder">{{ site.nombre }} {{ site.frecuencia }}</span>
+    {% endif %}
+  </div>
+  <div class="card-body">
+    <span class="card-tag-row">
+      {% if post.data.ultimaHora %}<span class="tag-live">🔴 ÚLTIMA HORA</span>{% endif %}
+      <span class="card-tag">{{ post.data.categoria | nombreCategoria(categorias) }}</span>
+    </span>
+    <h3>{{ post.data.title }}</h3>
+    {% if post.data.resumen and size == "lg" %}<p class="card-excerpt">{{ post.data.resumen }}</p>{% endif %}
+    <time class="card-date smart-date" datetime="{{ post.date | isoDate }}">{{ post.date | fechaLarga }} · {{ post.date | horaCorta }}</time>
+  </div>
+</a>
+{% endmacro %}

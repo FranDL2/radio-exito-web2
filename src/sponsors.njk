@@ -1,0 +1,18 @@
+---
+layout: layouts/base.njk
+permalink: "/sponsors.html"
+title: "Nuestros sponsors"
+description: "Las marcas y comercios que acompañan a Radio Éxito 105.1 en La Cruz, Corrientes."
+---
+{% import "components/sponsor-card.njk" as sp with context %}
+<section class="section" style="padding-top:48px; border-bottom:none;">
+  <div class="container">
+    <div class="section-head">
+      <span class="kicker">Gracias por acompañarnos</span>
+      <h1 class="mt-0">Nuestros sponsors</h1>
+      <p class="lead">Las marcas y comercios que hacen posible {{ site.nombre }} {{ site.frecuencia }}.</p>
+    </div>
+    {{ sp.sponsorShowcase(true) }}
+    <p style="margin-top:28px;"><a class="btn btn-primary" href="/publicidad.html">Anunciá con nosotros</a></p>
+  </div>
+</section>

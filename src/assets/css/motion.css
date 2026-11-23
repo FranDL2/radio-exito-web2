@@ -1,0 +1,108 @@
+/* ==========================================================================
+   RADIO ÉXITO 105.1 — motion.css
+   Animaciones. Sólo usan transform y opacity (livianas). Todo queda
+   desactivado con "reducir movimiento" y cuando la pestaña está oculta.
+   Los estados "ocultos" sólo existen si motion.js corre, así que sin
+   JavaScript el contenido se ve igual, sin animación.
+   ========================================================================== */
+
+/* 1. Aparición al hacer scroll ------------------------------------------- */
+.motion-ready [data-reveal] {
+  opacity: 0;
+  transform: translateY(20px);
+  transition: opacity .6s cubic-bezier(.2,.7,.2,1) var(--reveal-delay, 0ms),
+              transform .6s cubic-bezier(.2,.7,.2,1) var(--reveal-delay, 0ms);
+}
+.motion-ready [data-reveal].is-visible { opacity: 1; transform: none; }
+
+/* 2. Título del hero: entra palabra por palabra --------------------------- */
+.hero-title .hero-freq { color: var(--accent); display: block; }
+.split-word { display: inline-block; overflow: hidden; vertical-align: bottom; padding: .14em 0 .04em; margin: -.14em 0 -.04em; }
+.split-word.is-block { display: block; }
+.split-word > .split-in { display: inline-block; transform: translateY(110%); animation: word-in .85s cubic-bezier(.2,.8,.2,1) forwards; animation-delay: calc(var(--i, 0) * 110ms + 120ms); }
+.split-word > .split-in.hero-freq { display: block; }
+@keyframes word-in { to { transform: translateY(0); } }
+
+/* 3. Fondo animado del hero (CSS puro) ------------------------------------ */
+.hero { position: relative; overflow: hidden; isolation: isolate; }
+.hero::before {
+  content: ""; position: absolute; inset: -30%; z-index: -1; pointer-events: none;
+  background:
+    radial-gradient(40% 40% at 18% 30%, rgba(255, 90, 31, .26), transparent 70%),
+    radial-gradient(34% 34% at 82% 18%, rgba(255, 150, 70, .16), transparent 70%),
+    radial-gradient(44% 44% at 62% 92%, rgba(255, 60, 20, .14), transparent 70%);
+  animation: hero-drift 20s ease-in-out infinite alternate;
+}
+:root[data-theme="light"] .hero::before { opacity: .55; }
+@keyframes hero-drift { from { transform: translate3d(-3%, -2%, 0) scale(1); } to { transform: translate3d(4%, 3%, 0) scale(1.09); } }
+html.tab-hidden .hero::before, html.tab-hidden .ticker-track { animation-play-state: paused; }
+
+/* 4. Tarjetas: elevación, zoom de la foto y brillo que sigue al cursor ---- */
+.card { position: relative; transition: border-color .15s ease, transform .25s ease, box-shadow .25s ease, background-color .2s ease; }
+.card::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none; opacity: 0; transition: opacity .25s ease;
+  background: radial-gradient(260px circle at var(--mx, 50%) var(--my, 50%), var(--accent-soft), transparent 70%);
+}
+.card-media img { transition: transform .6s cubic-bezier(.2,.7,.2,1); }
+@media (hover: hover) {
+  .card:hover { transform: translateY(-4px); box-shadow: 0 14px 30px rgba(0, 0, 0, .25); }
+  .card.card-row:hover { transform: translateY(-2px); }
+  .card:hover::after { opacity: 1; }
+  .card:hover .card-media img { transform: scale(1.06); }
+  .info-card, .widget { transition: border-color .2s ease, transform .25s ease; }
+  .info-card:hover { border-color: var(--accent); transform: translateY(-2px); }
+}
+.btn { transition: background-color .15s ease, border-color .15s ease, transform .15s ease, box-shadow .2s ease; }
+@media (hover: hover) { .btn-primary:hover { transform: translateY(-1px); box-shadow: 0 8px 20px rgba(255, 90, 31, .3); } }
+
+/* 5. Transición entre secciones + barra de carga ---------------------------- */
+main.is-leaving { opacity: .45; transition: opacity .18s ease; }
+main.is-entering { animation: page-in .35s ease; }
+@keyframes page-in { from { opacity: 0; } to { opacity: 1; } }
+.nav-progress, .read-progress {
+  position: fixed; top: 0; left: 0; right: 0; height: 3px; background: var(--accent);
+  transform-origin: 0 50%; transform: scaleX(0); pointer-events: none;
+}
+.nav-progress { z-index: 140; opacity: 0; }
+.nav-progress.is-active { opacity: 1; transition: transform 6s cubic-bezier(.1,.5,.2,1); transform: scaleX(.85); }
+.nav-progress.is-done { opacity: 0; transform: scaleX(1); transition: transform .2s ease, opacity .35s ease .2s; }
+.read-progress { z-index: 130; opacity: .9; }
+
+/* 6. Header que se compacta al bajar -------------------------------------- */
+html.is-scrolled { --header-h: 54px; }
+.header-top { transition: height .2s ease; }
+.brand-logo-chip img { transition: height .2s ease; }
+html.is-scrolled .brand-logo-chip img { height: 28px; }
+.site-header { transition: background-color .2s ease, box-shadow .2s ease; }
+html.is-scrolled .site-header { box-shadow: 0 6px 20px rgba(0, 0, 0, .18); }
+
+/* 7. Cinta de titulares ------------------------------------------------------ */
+.ticker { display: flex; align-items: center; border-bottom: 1px solid var(--border); background: var(--bg-elevated); overflow: hidden; }
+.ticker-label {
+  flex: none; z-index: 1; background: var(--accent); color: #0b0b0c; font-weight: 800; font-size: .72rem;
+  letter-spacing: .06em; padding: 12px 16px;
+}
+.ticker-viewport { overflow: hidden; flex: 1; mask-image: linear-gradient(90deg, transparent, #000 4%, #000 96%, transparent); -webkit-mask-image: linear-gradient(90deg, transparent, #000 4%, #000 96%, transparent); }
+.ticker-track { display: flex; width: max-content; list-style: none; margin: 0; padding: 0; animation: ticker var(--ticker-dur, 40s) linear infinite; }
+.ticker-track li { flex: none; padding: 0 28px; position: relative; }
+.ticker-track li::after { content: "•"; position: absolute; right: -3px; color: var(--accent); }
+.ticker-track a { display: block; padding: 12px 0; font-size: .88rem; font-weight: 600; text-decoration: none; white-space: nowrap; }
+.ticker-track a:hover { color: var(--accent); }
+.ticker:hover .ticker-track, .ticker:focus-within .ticker-track { animation-play-state: paused; }
+@keyframes ticker { to { transform: translateX(-50%); } }
+
+/* 8. Menú móvil: los ítems entran escalonados -------------------------------- */
+@media (max-width: 900px) {
+  .mobile-nav li { opacity: 0; transform: translateX(-10px); transition: opacity .25s ease, transform .25s ease; }
+  .mobile-nav.is-open li { opacity: 1; transform: none; transition-delay: calc(var(--i, 0) * 22ms + 60ms); }
+}
+
+/* Reducir movimiento: todo quieto, todo visible ------------------------------ */
+@media (prefers-reduced-motion: reduce) {
+  .hero::before, .ticker-track, .split-in, main.is-entering { animation: none !important; }
+  .split-word > .split-in { transform: none; }
+  [data-reveal] { opacity: 1 !important; transform: none !important; transition: none !important; }
+  .ticker-viewport { overflow-x: auto; mask-image: none; -webkit-mask-image: none; }
+  .mobile-nav li { opacity: 1; transform: none; }
+  .nav-progress, .read-progress { display: none; }
+}

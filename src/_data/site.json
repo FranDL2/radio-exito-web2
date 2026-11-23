@@ -1,0 +1,11 @@
+{
+  "nombre": "Radio Éxito",
+  "frecuencia": "105.1",
+  "eslogan": "El valor de la palabra — la radio y el portal de noticias de La Cruz, Corrientes",
+  "url": "https://www.radioexito.com.ar",
+  "streamUrl": "http://centova.radiosnethosting.com:9748/stream",
+  "streamUrlSSL": "",
+  "nowPlayingUrl": "",
+  "gaId": "",
+  "imageCdn": "netlify"
+}

@@ -1,0 +1,39 @@
+{# Sponsors por posición. Uso: {% import "components/sponsor-card.njk" as sp with context %}{{ sp.sponsorSlot("sidebar") }} #}
+{% macro sponsorSlot(posicion) %}
+{% set lista = sponsors.items | sponsorsPara(posicion) %}
+{% if lista.length %}
+<div class="sponsor-slot sponsor-slot-{{ posicion }}">
+  {% if posicion == "home" or posicion == "footer" %}<div class="container">{% endif %}
+  <span class="sponsor-label">PUBLICIDAD</span>
+  <div class="sponsor-items">
+  {% for s in lista %}
+    {% if s.imagen %}
+    <a class="sponsor-card" href="{{ s.url or '#' }}" target="_blank" rel="noopener noreferrer sponsored" data-no-router data-sponsor="{{ s.nombre }}"{% if s.inicio %} data-inicio="{{ s.inicio }}"{% endif %}{% if s.fin %} data-fin="{{ s.fin }}"{% endif %}>
+      <img src="{{ s.imagen }}" alt="Publicidad: {{ s.nombre }}" loading="lazy" decoding="async">
+    </a>
+    {% endif %}
+  {% endfor %}
+  </div>
+  {% if posicion == "home" or posicion == "footer" %}</div>{% endif %}
+</div>
+{% endif %}
+{% endmacro %}
+
+{# Sección propia "Nuestros sponsors": todos los activos, sin importar la posición #}
+{% macro sponsorShowcase(conCta) %}
+{% set todos = sponsors.items | sponsorsActivos %}
+{% if todos.length %}
+<div class="sponsor-slot sponsor-showcase">
+  <div class="sponsor-grid">
+  {% for s in todos %}
+    <a class="sponsor-tile" href="{{ s.url or '#' }}" target="_blank" rel="noopener noreferrer sponsored" data-no-router data-sponsor="{{ s.nombre }}"{% if s.inicio %} data-inicio="{{ s.inicio }}"{% endif %}{% if s.fin %} data-fin="{{ s.fin }}"{% endif %}>
+      <img src="{{ s.imagen }}" alt="{{ s.nombre }}" loading="lazy" decoding="async">
+      <span class="sponsor-tile-name">{{ s.nombre }}</span>
+    </a>
+  {% endfor %}
+  </div>
+</div>
+{% elif conCta %}
+<p class="empty-state">Todavía no hay sponsors cargados. <a href="/publicidad.html">Sumá tu marca a Radio Éxito</a>.</p>
+{% endif %}
+{% endmacro %}

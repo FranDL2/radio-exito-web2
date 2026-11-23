@@ -1,0 +1,35 @@
+---
+layout: layouts/base.njk
+permalink: "/publicidad.html"
+title: "Publicidad — Anunciá en Radio Éxito 105.1"
+description: "Anunciá en Radio Éxito 105.1: spots radiales, banners, publicidad web, redes sociales y notas patrocinadas en La Cruz, Corrientes."
+---
+<section class="section" style="padding-top:48px;">
+  <div class="container">
+    <div class="section-head">
+      <span class="kicker">Anunciantes</span>
+      <h1 class="mt-0">{{ publicidad.titulo }}</h1>
+      <p class="lead">{{ publicidad.intro }}</p>
+    </div>
+    <div class="grid-2">
+      <div class="info-card">
+        <h3>Dónde te vemos</h3>
+        <ul class="check-list">
+          {% for c in publicidad.canales %}<li>{{ c }}</li>{% endfor %}
+        </ul>
+      </div>
+      <div class="info-card">
+        <h3>Formatos disponibles</h3>
+        <ul class="check-list">
+          {% for f in publicidad.formatos %}<li>{{ f }}</li>{% endfor %}
+        </ul>
+      </div>
+    </div>
+    <div class="ad-cta">
+      {% if contacto.whatsapp %}
+      <a class="btn btn-primary" href="{{ contacto.whatsapp }}{% if publicidad.mensajeWhatsapp %}&text={{ publicidad.mensajeWhatsapp | urlencode }}{% endif %}" target="_blank" rel="noopener noreferrer" data-no-router>{{ publicidad.cta }} por WhatsApp</a>
+      {% endif %}
+      <a class="btn btn-outline" href="/contacto.html">Ir al formulario de contacto</a>
+    </div>
+  </div>
+</section>

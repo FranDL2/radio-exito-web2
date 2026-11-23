@@ -1,0 +1,18 @@
+---
+permalink: "/search-index.json"
+eleventyExcludeFromCollections: true
+---
+[
+{%- for post in collections.noticias %}
+{
+  "title": {{ post.data.title | dump | safe }},
+  "resumen": {{ (post.data.resumen or "") | dump | safe }},
+  "text": {{ (post.templateContent | stripHtml | truncar(600)) | dump | safe }},
+  "categoria": {{ (post.data.categoria | nombreCategoria(categorias)) | dump | safe }},
+  "etiquetas": {{ (post.data.etiquetas or []) | dump | safe }},
+  "url": {{ post.url | dump | safe }},
+  "date": {{ post.date | isoDate | dump | safe }},
+  "fecha": {{ (post.date | fechaLarga) | dump | safe }}
+}{% if not loop.last %},{% endif %}
+{%- endfor %}
+]
